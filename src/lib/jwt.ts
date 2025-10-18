@@ -8,3 +8,16 @@ export type JwtPayload = {
   expiresIn?: number;
 };
 
+export function generateToken(payload: JwtPayload): string {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: payload.expiresIn || "1h" });
+}
+
+export function verifyToken(token: string): JwtPayload | null {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+    return decoded;
+  } catch (error) {
+    console.error("Token verification failed:", error);
+    return null;
+  }
+}
