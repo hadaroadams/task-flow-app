@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import users from "../../../data/users.json";
-import { generateToken } from "@/lib/jwt";
+import { generateToken, verifyToken } from "@/lib/jwt";
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   const { email, password } = await request.json();
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
     });
   }
   const token = generateToken({ email: user.email, role: user.role });
-  
+
   console.log("Generated Token:", token);
 
   const response = NextResponse.json({
@@ -27,4 +28,22 @@ export async function POST(request: NextRequest) {
     sameSite: "lax",
   });
   return response;
+}
+
+export async function GET() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) {
+    return NextResponse.json({ authenticated: false });
+  }
+  try {
+    const user = verifyToken(token);
+    if (!user) {
+      return NextResponse.json({ authenticated: false });
+    }
+    return NextResponse.json({ authenticated: true, user });
+  } catch (error) {
+    return NextResponse.json({ authenticated: false });
+  }
 }

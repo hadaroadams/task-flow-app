@@ -9,7 +9,7 @@ const isProtectedPath = (path: string) => {
 
 export function middleware(request: NextRequest) {
   const currentPath = request.nextUrl.pathname;
-
+  console.log("Middleware - Current Path:", currentPath);
   if (!isProtectedPath(currentPath)) {
     return NextResponse.next();
   }
@@ -30,6 +30,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/tasks/:path*"],
+  // matcher: ["/dashboard/:path*", "/tasks/:path*"],
   runtime: "nodejs",
 };
