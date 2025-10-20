@@ -5,10 +5,26 @@ import { getCurrentUser } from "@/lib/auth";
 import { can } from "@/lib/permission";
 
 export async function GET(request: NextRequest) {
-  return NextResponse.json({
-    message: "GET request received for tasks",
-    tasks,
-  });
+  try {
+    const user = await getCurrentUser();
+    if (!user)
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    let filteredTask = [];
+
+    // filtering based on role
+    if (user.role === "admin") {
+      filteredTask = tasks;
+    } else {
+      filteredTask = tasks.filter((task) => task.assignedTo === user.email);
+    }
+    return NextResponse.json({
+      message: "GET request received for tasks",
+      filteredTask,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.error();
+  }
 }
 
 export async function POST(request: NextRequest) {

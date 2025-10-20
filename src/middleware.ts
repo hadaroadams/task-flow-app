@@ -15,13 +15,17 @@ export function middleware(request: NextRequest) {
   }
 
   const token = request.cookies.get("token")?.value;
+  console.log(token);
   if (!token) {
     if (currentPath.startsWith("/api")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized1" }, { status: 401 });
     }
     return NextResponse.redirect(new URL("/login", request.url));
   }
   try {
+    if (currentPath.startsWith("/api")) {
+      console.log("it did");
+    }
     const user = verifyToken(token);
     if (!user) {
       return NextResponse.redirect(new URL("/login", request.url));
@@ -29,7 +33,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   } catch (error) {
     if (currentPath.startsWith("/api")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorize2" }, { status: 401 });
     }
     return NextResponse.redirect(new URL("/login", request.url));
   }

@@ -25,6 +25,7 @@ function page() {
     try {
       const response = await fetch("/api/auth", {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-Type": "application/json",
         },

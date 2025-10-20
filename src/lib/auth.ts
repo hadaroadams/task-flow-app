@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { verifyToken } from "./jwt";
 
-
 export const getCurrentUser = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -9,9 +8,11 @@ export const getCurrentUser = async () => {
     return null;
   }
   try {
-    return verifyToken(token) as { email: string; role: string };
+    return verifyToken(token) as {
+      email: string;
+      role: "admin" | "member" | "manager";
+    };
   } catch (error) {
     return null;
   }
 };
-

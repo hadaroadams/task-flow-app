@@ -1,0 +1,52 @@
+// src/lib/task.ts
+
+import { cookies } from "next/headers";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+export const fetchAPI = async (url: string, options?: RequestInit) => {
+  const cookieHeader = (await cookies()).toString();
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
+  }
+};
+export const getAllTasks = async () => {
+  const cookieHeader = (await cookies()).toString();
+  try {
+    const response = await fetch(`${BASE_URL}/api/task`, {
+      method: "GET",
+      //   cache: "no-store", // Ensures always fresh data
+      headers: { Cookie: cookieHeader },
+    });
+    const tasks = await response.json();
+    console.log(tasks);
+    return tasks;
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
+  }
+};
+
+export const getProjects = async () => {
+  const cookieHeader = (await cookies()).toString();
+  try {
+    const response = await fetch(`${BASE_URL}/api/project`, {
+      method: "GET",
+      //   cache: "no-store", // Ensures always fresh data
+      headers: { Cookie: cookieHeader },
+    });
+    const projects = await response.json();
+    console.log(projects);
+    return projects;
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
+  }
+};
