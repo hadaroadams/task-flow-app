@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
   }
 
   const token = request.cookies.get("token")?.value;
-  console.log(token);
+  // console.log(token);
   if (!token) {
     if (currentPath.startsWith("/api")) {
       return NextResponse.json({ error: "Unauthorized1" }, { status: 401 });
@@ -24,7 +24,7 @@ export function middleware(request: NextRequest) {
   }
   try {
     if (currentPath.startsWith("/api")) {
-      console.log("it did");
+      // console.log("it did");
     }
     const user = verifyToken(token);
     if (!user) {

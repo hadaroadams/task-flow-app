@@ -22,7 +22,7 @@ export const getAllTasks = async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/task`, {
       method: "GET",
-      //   cache: "no-store", // Ensures always fresh data
+
       headers: { Cookie: cookieHeader },
     });
     const tasks = await response.json();
@@ -50,3 +50,26 @@ export const getProjects = async () => {
     throw error;
   }
 };
+
+export async function getProjectData(id: string) {
+  const cookieHeader = (await cookies()).toString();
+  try {
+    const [projectRes, tasksRes] = await Promise.all([
+      fetch(`${BASE_URL}/api/project/${id}`, {
+        credentials: "include",
+        headers: { Cookie: cookieHeader },
+      }),
+      fetch(`${BASE_URL}/api/project/${id}/task`, {
+        cache: "no-store",
+        credentials: "include",
+        headers: { Cookie: cookieHeader },
+      }),
+    ]);
+
+    const project = await projectRes.json();
+    const tasks = await tasksRes.json();
+    return { project, tasks };
+  } catch (error) {
+    console.log(error);
+  }
+}

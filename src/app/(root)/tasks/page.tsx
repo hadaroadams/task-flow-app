@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { getAllTasks } from "@/lib/task";
 import React from "react";
 
@@ -13,7 +14,7 @@ async function page() {
       <section>
         {tasks.filteredTask.map((task: any, index: number) => {
           return (
-            <div className="bg-white p-6 rounded-lg shadow-md mt-6 min-w-[200px] space-y-4 flex justify-between items-center">
+            <Card className="bg-white p-6  mt-6 min-w-[200px] space-y-4 flex flex-row justify-between items-center">
               <div>
                 <h3 className="text-md font-bold">{task.title}</h3>
                 <p className="text-sm text-gray-500">
@@ -37,7 +38,7 @@ async function page() {
                   </>
                 )}
               </div>
-            </div>
+            </Card>
           );
         })}
       </section>

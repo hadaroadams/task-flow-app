@@ -23,7 +23,7 @@ function page() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("/api/auth", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         credentials:"include",
         headers: {

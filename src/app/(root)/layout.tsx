@@ -4,7 +4,7 @@ import React from "react";
 
 async function layout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser();
-  console.log("Current User in Layout:", user);
+  // console.log("Current User in Layout:", user);
   return (
     <>
       <Navbar user={user!} />

@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import users from "../../../data/users.json";
+import users from "../../../../data/users.json";
 import { generateToken, verifyToken } from "@/lib/jwt";
 import { cookies } from "next/headers";
 
