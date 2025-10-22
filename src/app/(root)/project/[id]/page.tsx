@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getCurrentUser } from "@/lib/auth";
 import { getProjectData } from "@/lib/task";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +15,7 @@ async function page({ params }: { params: Promise<{ id: string }> }) {
   const productId = (await params).id;
   const projectData = await getProjectData(productId);
   const { project, tasks } = projectData!;
-  console.log(tasks);
+  const user = await getCurrentUser();
 
   return (
     <main className="bg-gray-100 min-h-screen px-10 py-6 space-y-10">
@@ -30,7 +31,7 @@ async function page({ params }: { params: Promise<{ id: string }> }) {
           </CardHeader>
           <CardDescription>
             {tasks.tasks.map((task: any, index: number) => {
-              return <TaskCard {...task} key={index} />;
+              return <TaskCard {...task} key={index} userRole={user?.role} />;
             })}
           </CardDescription>
         </Card>

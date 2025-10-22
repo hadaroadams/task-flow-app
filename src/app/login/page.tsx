@@ -1,4 +1,7 @@
 "use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -8,21 +11,26 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-function page() {
+export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isloading, setLoading] = useState(false);
-  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
+    setError(null);
+
+    if (!email.trim() || !password.trim()) {
+      setError("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    setIsLoading(true);
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -32,63 +40,76 @@ function page() {
         },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await response.json();
+
       if (!response.ok) {
-        setError(data.message || "Login failed");
-        toast.error(data.message || "Login failed");
-      } else {
-        // Handle successful login (e.g., redirect to dashboard)
-        console.log("Login successful:", data);
-        router.push("/dashboard");
-        toast.success("Logged in successfully");
+        const message = data?.message || "Invalid email or password.";
+        setError(message);
+        toast.error(message);
+        return;
       }
+
+      toast.success("Logged in successfully!");
+      router.push("/dashboard");
     } catch (err) {
-      setError("An error occurred. Please try again.");
-      toast.error("An error occurred. Please try again.");
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
+
   return (
-    <div className="w-full flex justify-center items-center h-dvh ">
-      <FieldSet className="w-96 p-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6">Login to Your Account</h1>
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="username">Username</FieldLabel>
-            <Input
-              id="username"
-              type="text"
-              placeholder="admin@taskflow.com"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="password">Password</FieldLabel>
-            <Input
-              id="password"
-              type="password"
-              placeholder="********"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Field>
-          {error && (
-            <FieldDescription className="text-red-500 mt-2">
-              {error}
-            </FieldDescription>
-          )}
-        </FieldGroup>
-        <Button
-          onClick={handleLogin}
-          type="submit"
-          className="w-full mt-4"
-          disabled={isloading}
-        >
-          {isloading ? "Logging in" : "Log in"}
-        </Button>
-      </FieldSet>
+    <div className="w-full flex justify-center items-center min-h-screen bg-gray-50">
+      <form
+        onSubmit={handleLogin}
+        className="w-96 p-6 bg-white rounded-lg shadow-md"
+      >
+        <h1 className="text-2xl font-bold mb-2 text-center">TaskFlow</h1>
+        <p className="text-center text-gray-600 mb-6">
+          Sign in to your account
+        </p>
+
+        <FieldSet>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <Input
+                id="email"
+                type="email"
+                placeholder="admin@taskflow.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
+              />
+            </Field>
+
+            <Field>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <Input
+                id="password"
+                type="password"
+                placeholder="********"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
+              />
+            </Field>
+
+            {error && (
+              <FieldDescription className="text-red-500 mt-2">
+                {error}
+              </FieldDescription>
+            )}
+          </FieldGroup>
+
+          <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Log In"}
+          </Button>
+        </FieldSet>
+      </form>
     </div>
   );
 }
-
-export default page;

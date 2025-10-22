@@ -60,17 +60,20 @@ export async function POST(request: NextRequest) {
 // Both admin and manager update and member mark as done in one api
 export async function PUT(request: NextRequest) {
   const user = await getCurrentUser();
+  console.log("is in");
   if (!user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const { id, title, assignedTo, status, projectId } = await request.json();
   if (!id || !title || !assignedTo || !status || !projectId) {
+    console.log(id, title, assignedTo, status, projectId);
+
     return NextResponse.json(
       { message: "Missing required fields" },
       { status: 400 }
     );
   }
-  
+
   const taskIndex = tasks.findIndex((t) => t.id === parseInt(id));
   if (taskIndex === -1) {
     return NextResponse.json({ message: "Task not found" }, { status: 404 });

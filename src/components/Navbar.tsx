@@ -33,7 +33,7 @@ function Navbar({ user }: { user: { email: string; role: string } }) {
         <h1 className=" text-[1.5em] text-primary font-bold">TaskFlow</h1>
       </div>
       <div className="md:flex hidden justify-between items-center space-x-8 w-full ">
-        <ul className="flex space-x-6 text-lg font-medium text-gray-700">
+        <ul className="flex space-x-6 font-medium text-gray-700">
           <li>
             <Link href="/dashboard">Dashboard</Link>
           </li>
