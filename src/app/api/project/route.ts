@@ -7,24 +7,20 @@ export async function GET(request: NextRequest) {
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  if (user.role === "member")
-    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-
-  if (user.role === "manager") {
-    const filteredProjects = projects.filter((p) => user.email === p.owner);
+  if (user.role === "admin") {
     return NextResponse.json(
       {
         message: "GET request received for Projects",
-        projects: filteredProjects,
+        projects,
       },
       { status: 200 }
     );
   }
-
+  const filteredProjects = projects.filter((p) => user.email === p.owner);
   return NextResponse.json(
     {
       message: "GET request received for Projects",
-      projects,
+      projects: filteredProjects,
     },
     { status: 200 }
   );

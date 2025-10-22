@@ -5,7 +5,8 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const project = projects.filter((proj) => proj.id === parseInt(params.id));
+  const id = await params.id;
+  const project = projects.filter((proj) => proj.id === parseInt(id));
   if (!project)
     return NextResponse.json({ message: "Not Found" }, { status: 404 });
   return NextResponse.json({

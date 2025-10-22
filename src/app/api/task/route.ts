@@ -70,6 +70,7 @@ export async function PUT(request: NextRequest) {
       { status: 400 }
     );
   }
+  
   const taskIndex = tasks.findIndex((t) => t.id === parseInt(id));
   if (taskIndex === -1) {
     return NextResponse.json({ message: "Task not found" }, { status: 404 });

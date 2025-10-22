@@ -26,36 +26,36 @@ export async function GET(
   }
 }
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const user = await getCurrentUser();
-  if (!user)
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+// export async function POST(
+//   request: Request,
+//   { params }: { params: { id: string } }
+// ) {
+//   const user = await getCurrentUser();
+//   if (!user)
+//     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const { title, assignedTo, status } = await request.json();
-  if (!title || !assignedTo)
-    return NextResponse.json({ message: "Missing fields" }, { status: 400 });
-  const project = projects.find((p) => p.id === parseInt(params.id));
+//   const { title, assignedTo, status } = await request.json();
+//   if (!title || !assignedTo)
+//     return NextResponse.json({ message: "Missing fields" }, { status: 400 });
+//   const project = projects.find((p) => p.id === parseInt(params.id));
 
-  const isAllowed = can("createTask", "task", user, {
-    projectOwner: project?.owner,
-  });
-  if (!isAllowed) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
+//   const isAllowed = can("createTask", "task", user, {
+//     projectOwner: project?.owner,
+//   });
+//   if (!isAllowed) {
+//     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+//   }
 
-  const taskId = tasks.length + 1;
+//   const taskId = tasks.length + 1;
 
-  const newTask = {
-    id: taskId,
-    projectId: parseInt(params.id),
-    title,
-    assignedTo,
-    status: status || "pending",
-  };
-  tasks.push(newTask);
+//   const newTask = {
+//     id: taskId,
+//     projectId: parseInt(params.id),
+//     title,
+//     assignedTo,
+//     status: status || "pending",
+//   };
+//   tasks.push(newTask);
 
-  return NextResponse.json({ message: "Task created", task: newTask });
-}
+//   return NextResponse.json({ message: "Task created", task: newTask });
+// }

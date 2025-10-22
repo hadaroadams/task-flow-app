@@ -22,7 +22,6 @@ export const getAllTasks = async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/task`, {
       method: "GET",
-
       headers: { Cookie: cookieHeader },
     });
     const tasks = await response.json();

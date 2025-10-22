@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 function page() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ function page() {
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
-        credentials:"include",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -34,13 +35,16 @@ function page() {
       const data = await response.json();
       if (!response.ok) {
         setError(data.message || "Login failed");
+        toast.error(data.message || "Login failed");
       } else {
         // Handle successful login (e.g., redirect to dashboard)
         console.log("Login successful:", data);
         router.push("/dashboard");
+        toast.success("Logged in successfully");
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
