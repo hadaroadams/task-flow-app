@@ -30,6 +30,7 @@ export function middleware(request: NextRequest) {
     if (!user) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
+    request.user! = user;
     return NextResponse.next();
   } catch (error) {
     if (currentPath.startsWith("/api")) {

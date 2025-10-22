@@ -109,6 +109,19 @@ export default function LoginPage() {
             {isLoading ? "Logging in..." : "Log In"}
           </Button>
         </FieldSet>
+        <div className="font-bold">
+          <h3 className=" mt-4 text-sm ">Demo Credentials</h3>
+          <div></div>
+          <p className="text-xs text-gray-500 ">
+            Admin: admin@taskflow.com / 123456
+          </p>
+          <p className="text-xs text-gray-500 ">
+            Manager: manager@taskflow.com / 123456
+          </p>
+          <p className="text-xs text-gray-500 ">
+            Member: member@taskflow.com / 123456
+          </p>
+        </div>
       </form>
     </div>
   );

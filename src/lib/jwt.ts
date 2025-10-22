@@ -9,7 +9,9 @@ export type JwtPayload = {
 };
 
 export function generateToken(payload: JwtPayload): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: payload.expiresIn || "1h" });
+  return jwt.sign(payload, JWT_SECRET, {
+    expiresIn: payload.expiresIn || "1h",
+  });
 }
 
 export function verifyToken(token: string): JwtPayload | null {
