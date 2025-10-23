@@ -19,7 +19,7 @@ async function Page() {
           projects.map((project, index: number) => (
             <Link
               key={index}
-              href={`/project/${project.id}`}
+              href={`/projects/${project.id}`}
               className="bg-white p-6 hover:bg-gray-100 rounded-xl border shadow-sm transition cursor-pointer"
             >
               <h3 className="text-lg font-semibold text-gray-800">

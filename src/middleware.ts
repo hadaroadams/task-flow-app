@@ -3,7 +3,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const isProtectedPath = (path: string) => {
-  const protectedPaths = ["/dashboard", "/tasks", "/api/task"];
+  const protectedPaths = [
+    "/dashboard",
+    "/tasks",
+    "/projects",
+    "/api/projects",
+    "/api/task",
+  ];
   return protectedPaths.some((protectedPath) => path.startsWith(protectedPath));
 };
 
@@ -46,7 +52,9 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/tasks/:path*",
+    "/peojects/:path*",
     "/api/task/:path*",
+    "/api/project/:path*",
     "/admin-panel/:path*",
   ],
   runtime: "nodejs",
