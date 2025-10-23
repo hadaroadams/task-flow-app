@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 export const getAllUsers = async () => {
   const cookieHeader = (await cookies()).toString();
   try {
-    const res = await fetch("http://localhost:3000/api/user", {
+    const res = await fetch(`${BASE_URL}/api/user`, {
       headers: { Cookie: cookieHeader },
       credentials: "include",
     });
