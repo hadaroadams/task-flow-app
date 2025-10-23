@@ -43,7 +43,7 @@ function Navbar({ user }: NavbarProps) {
   const navLinks = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/tasks", label: "Tasks" },
-    { href: "/project", label: "Projects" },
+    { href: "/projects", label: "Projects" },
   ];
 
   if (user.role === "admin") {

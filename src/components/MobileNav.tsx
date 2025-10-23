@@ -47,7 +47,7 @@ function MobileNav({ user }: MobileNavProps) {
   const links = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/tasks", label: "Tasks" },
-    { href: "/project", label: "Projects" },
+    { href: "/projects", label: "Projects" },
     ...(user?.role === "admin"
       ? [{ href: "/admin-panel", label: "Admin Panel" }]
       : []),
