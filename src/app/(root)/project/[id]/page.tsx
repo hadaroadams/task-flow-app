@@ -1,14 +1,9 @@
 import AddTask from "@/components/AddTaskForm";
 import ProjectHeader from "@/components/ProjectHeader";
 import TaskCard from "@/components/TaskCard";
-import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { getCurrentUser } from "@/lib/auth";
 import { getProjectData } from "@/lib/task";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import React from "react";
 
 async function page({ params }: { params: Promise<{ id: string }> }) {

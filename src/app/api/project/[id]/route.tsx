@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import projects from "../../../../data/projects.json";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const id = await params.id;
   const project = projects.filter((proj) => proj.id === parseInt(id));
   if (!project)

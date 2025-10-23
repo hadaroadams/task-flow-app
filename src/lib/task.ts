@@ -4,19 +4,7 @@ import { cookies } from "next/headers";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-export const fetchAPI = async (url: string, options?: RequestInit) => {
-  const cookieHeader = (await cookies()).toString();
-  try {
-    const response = await fetch(url, options);
-    if (!response.ok) {
-      new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Fetch error:", error);
-    throw error;
-  }
-};
+
 
 export const getAllTasks = async (): Promise<ApiResponse<Task[]>> => {
   const cookieHeader = (await cookies()).toString();

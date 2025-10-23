@@ -42,7 +42,7 @@ export function can(
   if (resource === "task") {
     const { projectOwner, taskAssignedTo } = context;
     if (user.role === "manager") {
-        console.log("manager trying to", action);
+      console.log("manager trying to", action);
       // manager can create/edit/delete tasks in their projects
       if (["createTask", "editTask", "deleteTask"].includes(action)) {
         console.log("projectOwner:", projectOwner, "user:", user.email);

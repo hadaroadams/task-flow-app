@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Card, CardHeader } from "./ui/card";
+import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 
 type TaskOverviewCardProps = {

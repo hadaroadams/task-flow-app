@@ -1,15 +1,7 @@
-import Navbar from "@/components/Navbar";
 import { getCurrentUser } from "@/lib/auth";
 import { getAllTasks, getProjects } from "@/lib/task";
 import { calculateTaskStats } from "@/lib/taskStatus";
-import React from "react";
-import Link from "next/link";
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardHeader,
-} from "@/components/ui/card";
+
 import ProjectSummaryCard from "@/components/ProjectSummaryCard";
 import StatusOverview from "@/components/StatusOverview";
 import RecentTaskCard from "@/components/TaskOverviewCard";

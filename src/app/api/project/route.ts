@@ -2,10 +2,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import projects from "../../../data/projects.json";
 
-
-export async function GET(
-  request: NextRequest
-): Promise<NextResponse<ApiResponse<Project[]>>> {
+export async function GET(): Promise<NextResponse<ApiResponse<Project[]>>> {
   try {
     const user = await getCurrentUser();
 

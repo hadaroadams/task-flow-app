@@ -46,9 +46,9 @@ export default function AddTask({ projectId }: AddTaskProps) {
       setTitle("");
       setAssignedTo("");
       router.refresh(); // refresh the current page (shows new tasks)
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      toast.error(err.message || "Something went wrong");
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }

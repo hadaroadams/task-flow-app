@@ -4,9 +4,7 @@ import projects from "../../../data/projects.json";
 import { getCurrentUser } from "@/lib/auth";
 import { can } from "@/lib/permission";
 
-export async function GET(
-  request: NextRequest
-): Promise<NextResponse<ApiResponse<Task[]>>> {
+export async function GET(): Promise<NextResponse<ApiResponse<Task[]>>> {
   try {
     const user = await getCurrentUser();
     if (!user)
@@ -160,7 +158,7 @@ export async function PUT(
 export async function DELETE(request: NextRequest) {
   const user = await getCurrentUser();
   if (!user) {
-    console.log('herer')
+    console.log("herer");
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const { searchParams } = new URL(request.url);
@@ -171,7 +169,7 @@ export async function DELETE(request: NextRequest) {
 
   const taskIndex = tasks.findIndex((t) => t.id === parseInt(id));
   if (taskIndex === -1) {
-    console.log('herer1')
+    console.log("herer1");
     return NextResponse.json({ message: "Task not found" }, { status: 404 });
   }
 

@@ -16,7 +16,7 @@ async function Page() {
       {/* Projects Section */}
       <section className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects && projects.length > 0 ? (
-          projects.map((project: any, index: number) => (
+          projects.map((project, index: number) => (
             <Link
               key={index}
               href={`/project/${project.id}`}

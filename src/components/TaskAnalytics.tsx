@@ -15,12 +15,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-// Task analytics sample data
-const chartData = [
-  { status: "Pending", count: 12 },
-  { status: "Done", count: 25 },
-];
-
 const chartConfig = {
   tasks: {
     label: "Tasks",
@@ -36,7 +30,7 @@ type TaskAnalyticsProps = {
 };
 
 export function TaskAnalytics(analyticInfo: TaskAnalyticsProps) {
-  const { completed, pending, completionRate, total } = analyticInfo;
+  const { completed, pending } = analyticInfo;
   const chartData = [
     { status: "Pending", count: pending },
     { status: "Done", count: completed },

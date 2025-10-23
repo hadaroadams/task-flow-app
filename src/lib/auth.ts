@@ -14,6 +14,7 @@ export const getCurrentUser = async () => {
       role: "admin" | "member" | "manager";
     };
   } catch (error) {
+    console.log(error);
     return null;
   }
 };

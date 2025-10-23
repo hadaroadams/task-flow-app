@@ -34,6 +34,7 @@ export function middleware(request: NextRequest) {
 
     return NextResponse.next();
   } catch (error) {
+    console.log(error);
     if (currentPath.startsWith("/api")) {
       return NextResponse.json({ error: "Unauthorize2" }, { status: 401 });
     }
