@@ -58,7 +58,7 @@ export async function getProjectData(id: string) {
         credentials: "include",
         headers: { Cookie: cookieHeader },
       }),
-      fetch(`${BASE_URL}/api/project/${id}/task`, {
+      fetch(`${BASE_URL}/api/task/${id}`, {
         cache: "no-store",
         credentials: "include",
         headers: { Cookie: cookieHeader },
