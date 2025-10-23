@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📝 TaskFlow – Role-Based Task Management App
 
-## Getting Started
+**TaskFlow** is a role-based task management application built with **Next.js**, **TypeScript**, and **Tailwind CSS**.  
+It demonstrates **authentication**, **role-based access control (RBAC)**, and **CRUD operations** for projects and tasks in a real-world context.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- **Authentication**: Login system with email/password
+- **RBAC (Role-Based Access Control)**: Admin, Manager, Member roles
+- **Tasks**: Create, view, edit, delete tasks according to role permissions
+- **Admin Panel**: Admin can manage users and change roles
+- **UI States**: Loading, empty, and error states handled gracefully
+- **Responsive Design**: Mobile-friendly layout
+
+---
+
+## 👥 Test Credentials
+
+| Role    | Email                | Password |
+| ------- | -------------------- | -------- |
+| Admin   | admin@taskflow.com   | 123456   |
+| Manager | manager@taskflow.com | 123456   |
+| Member  | member@taskflow.com  | 123456   |
+
+> **Note:** Use these credentials to test different RBAC access levels.
+
+---
+
+## 🔑 RBAC Logic
+
+TaskFlow implements **Role-Based Access Control (RBAC)** with **three roles**: **Admin**, **Manager**, and **Member**.  
+Permissions are enforced in both the **UI** and **API endpoints**.
+
+### 1. Admin
+
+- Full access to all pages: `/dashboard`, `/tasks`, `/projects`, `/admin-panel`
+- Can **create, edit, delete** any task
+- Can **manage user roles** (change a user's role)
+
+### 2. Manager
+
+- Can view projects they **own**
+- Can **create, edit, delete tasks** only in their projects
+- Cannot access the admin panel
+- Cannot manage other users’ roles
+
+### 3. Member
+
+- Can view **tasks assigned to them**
+- Can mark their own tasks as **done**
+- Cannot create, edit, delete tasks or projects
+- Cannot access the admin panel
+
+> Implementation:
+>
+> - **UI:** Conditional rendering based on user role
+> - **API:** Middleware checks JWT and role before processing requests
+> - **Route Protection:** Middleware and pages redirects unauthorized users away from restricted routes
+
+---
+
+## ⚙️ Project Setup
+
+Follow these steps to run TaskFlow locally:
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/hadaroadams/task-flow-app.git
+cd task-flow-app
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Create a .env.local file
+
+JWT_SECRET = your_secret_key
+NEXT_PUBLIC_API_URL=http://localhost:3000
+
+Add your environment variables:
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Your app should now be running on http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📂 Seed Data
 
-## Learn More
+**Users**
 
-To learn more about Next.js, take a look at the following resources:
+```json
+[
+  { "email": "admin@taskflow.com", "password": "123456", "role": "admin" },
+  { "email": "manager@taskflow.com", "password": "123456", "role": "manager" },
+  { "email": "member@taskflow.com", "password": "123456", "role": "member" }
+]
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Projects**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```json
+[
+  {
+    "id": 1,
+    "name": "Website Revamp",
+    "description": "Marketing site refresh",
+    "owner": "manager@taskflow.com"
+  },
+  {
+    "id": 2,
+    "name": "Mobile App",
+    "description": "v1 onboarding flow",
+    "owner": "manager@taskflow.com"
+  }
+]
+```
 
-## Deploy on Vercel
+**Tasks**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+[
+  {
+    "id": 1,
+    "projectId": 1,
+    "title": "Design homepage",
+    "assignedTo": "member@taskflow.com",
+    "status": "pending"
+  },
+  {
+    "id": 2,
+    "projectId": 1,
+    "title": "Build hero section",
+    "assignedTo": "member@taskflow.com",
+    "status": "pending"
+  },
+  {
+    "id": 3,
+    "projectId": 2,
+    "title": "Create login screen",
+    "assignedTo": "manager@taskflow.com",
+    "status": "done"
+  }
+]
+```
