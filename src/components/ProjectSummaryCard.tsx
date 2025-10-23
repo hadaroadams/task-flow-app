@@ -16,7 +16,7 @@ async function ProjectSummaryCard({ projects }: ProjectSummaryCardProps) {
             {projects.length} Project{projects.length !== 1 && "s"}
           </p>
         </div>
-        <Link href="/project" className="text-sm text-blue-600 hover:underline">
+        <Link href="/projects" className="text-sm text-blue-600 hover:underline">
           View All
         </Link>
       </CardHeader>

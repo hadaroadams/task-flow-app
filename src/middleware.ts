@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
 
   const token = request.cookies.get("token")?.value;
   // console.log(token);
-  if (!token) {
+  if (!token || token === "") {
     if (currentPath.startsWith("/api")) {
       return NextResponse.json({ error: "Unauthorized1" }, { status: 401 });
     }
@@ -52,7 +52,7 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/tasks/:path*",
-    "/peojects/:path*",
+    "/projects/:path*",
     "/api/task/:path*",
     "/api/project/:path*",
     "/admin-panel/:path*",
