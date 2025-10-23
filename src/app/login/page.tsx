@@ -68,7 +68,7 @@ export default function LoginPage() {
         onSubmit={handleLogin}
         className="w-96 p-6 bg-white rounded-lg shadow-md"
       >
-        <h1 className="text-2xl font-bold mb-2 text-center">TaskFlow</h1>
+        <h1 className="text-2xl font-bold mb-2 text-center text-primary">TaskFlow</h1>
         <p className="text-center text-gray-600 mb-6">
           Sign in to your account
         </p>
@@ -117,7 +117,7 @@ export default function LoginPage() {
             )}
           </Button>
         </FieldSet>
-        <div className="font-bold">
+        <div className="">
           <h3 className=" mt-4 text-sm ">Demo Credentials</h3>
           <div></div>
           <p className="text-xs text-gray-500 ">
