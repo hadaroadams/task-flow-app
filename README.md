@@ -1,5 +1,7 @@
 # 📝 TaskFlow – Role-Based Task Management App
 
+**Live Demo:** [taskflow.vercel.app](https://task-flow-app-one.vercel.app/)
+
 **TaskFlow** is a role-based task management application built with **Next.js**, **TypeScript**, and **Tailwind CSS**.  
 It demonstrates **authentication**, **role-based access control (RBAC)**, and **CRUD operations** for projects and tasks in a real-world context.
 
@@ -11,7 +13,7 @@ It demonstrates **authentication**, **role-based access control (RBAC)**, and **
 - **RBAC (Role-Based Access Control)**: Admin, Manager, Member roles
 - **Tasks**: Create, view, edit, delete tasks according to role permissions
 - **Admin Panel**: Admin can manage users and change roles
-- **UI States**: Loading, empty, and error states handled gracefully
+- **UI States**: Loading, empty, and error states handled gracefully with notifications
 - **Responsive Design**: Mobile-friendly layout
 
 ---
@@ -79,10 +81,12 @@ npm install
 ```
 
 ### 3. Create a .env.local file
+
 ```
 JWT_SECRET = your_secret_key
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
+
 Add your environment variables:
 
 ### 4. Run the development server
@@ -154,4 +158,3 @@ Your app should now be running on http://localhost:3000
   }
 ]
 ```
-
