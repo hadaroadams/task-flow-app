@@ -37,7 +37,7 @@ async function Page() {
         </div>
 
         {user.role === "admin" && (
-          <Link href="/tasks/new">
+          <Link href="/project">
             <Button>Add Task</Button>
           </Link>
         )}

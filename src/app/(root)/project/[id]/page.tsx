@@ -1,5 +1,6 @@
 import AddTask from "@/components/AddTaskForm";
 import ProjectHeader from "@/components/ProjectHeader";
+import ProjectTasks from "@/components/ProjectTaskCard";
 import TaskCard from "@/components/TaskCard";
 import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 import { getCurrentUser } from "@/lib/auth";
@@ -34,29 +35,7 @@ async function page({ params }: { params: Promise<{ id: string }> }) {
         <ProjectHeader project={project} />
 
         <AddTask projectId={projectId} />
-
-        <section>
-          <Card className="p-6">
-            <CardHeader className="flex justify-between items-center">
-              <div>
-                <h2 className="text-xl font-bold">Tasks</h2>
-                <p>{tasks?.length ?? 0} Task(s)</p>
-              </div>
-            </CardHeader>
-
-            <CardDescription className="space-y-4">
-              {tasks && tasks.length > 0 ? (
-                tasks.map((task: any) => (
-                  <TaskCard key={task.id} {...task} userRole={user?.role} />
-                ))
-              ) : (
-                <p className="text-gray-500 text-center py-6">
-                  No tasks found for this project.
-                </p>
-              )}
-            </CardDescription>
-          </Card>
-        </section>
+        <ProjectTasks tasks={tasks ?? []} userRole={user?.role!} />
       </main>
     );
   } catch (error: any) {
