@@ -43,6 +43,7 @@ function MobileNav({ user }: MobileNavProps) {
     }
   };
 
+  // ✅ Define navigation links in one place
   const links = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/tasks", label: "Tasks" },
@@ -65,6 +66,7 @@ function MobileNav({ user }: MobileNavProps) {
           </SheetTitle>
         </SheetHeader>
 
+        {/* ✅ Navigation Links with Active Indicator */}
         <nav className="flex flex-col space-y-4 text-gray-700 font-medium">
           {links.map(({ href, label }) => {
             const isActive = pathname === href;
@@ -84,6 +86,7 @@ function MobileNav({ user }: MobileNavProps) {
           })}
         </nav>
 
+        {/* ✅ User Info */}
         {user && (
           <div className="space-y-1">
             <p className="text-sm font-medium">{user.email}</p>
@@ -99,6 +102,7 @@ function MobileNav({ user }: MobileNavProps) {
           </div>
         )}
 
+        {/* ✅ Logout */}
         <div className="pt-6">
           <Button onClick={handleLogout} className="w-full">
             Log out

@@ -57,7 +57,7 @@ export default function AddTask({ projectId }: AddTaskProps) {
   return (
     <Card className="p-6 space-y-4">
       <Label className="text-md font-black">Add Task</Label>
-      <div className="flex gap-2">
+      <div className="flex gap-2 md:flex-row flex-col">
         <Input
           placeholder="Task title"
           value={title}
