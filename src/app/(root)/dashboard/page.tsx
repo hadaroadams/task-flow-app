@@ -1,10 +1,10 @@
 import { getCurrentUser } from "@/lib/auth";
 import { getAllTasks, getProjects } from "@/lib/task";
-import { calculateTaskStats } from "@/lib/taskStatus";
 
 import ProjectSummaryCard from "@/components/ProjectSummaryCard";
 import StatusOverview from "@/components/StatusOverview";
 import RecentTaskCard from "@/components/TaskOverviewCard";
+import { calculateTaskStats } from "@/lib";
 async function page() {
   const [user, tasks, projects] = await Promise.all([
     getCurrentUser(),

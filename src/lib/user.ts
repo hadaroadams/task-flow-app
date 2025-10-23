@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+import { BASE_URL } from ".";
+
 export const getAllUsers = async () => {
   const cookieHeader = (await cookies()).toString();
   try {
@@ -8,7 +9,7 @@ export const getAllUsers = async () => {
       credentials: "include",
     });
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
 
     return data;
   } catch (error) {

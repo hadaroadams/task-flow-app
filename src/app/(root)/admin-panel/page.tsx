@@ -1,9 +1,10 @@
 import StatusOverview from "@/components/StatusOverview";
 import { TaskAnalytics } from "@/components/TaskAnalytics";
 import { UserManagementTable } from "@/components/UserManagementTable";
+import { calculateTaskStats } from "@/lib";
 import { getCurrentUser } from "@/lib/auth";
 import { getAllTasks } from "@/lib/task";
-import { calculateTaskStats } from "@/lib/taskStatus";
+
 import { getAllUsers } from "@/lib/user";
 import { redirect } from "next/navigation";
 import React from "react";

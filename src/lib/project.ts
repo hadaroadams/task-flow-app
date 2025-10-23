@@ -1,24 +1,5 @@
-// src/lib/task.ts
-
 import { cookies } from "next/headers";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
-export const getAllTasks = async (): Promise<ApiResponse<Task[]>> => {
-  const cookieHeader = (await cookies()).toString();
-  try {
-    const response = await fetch(`${BASE_URL}/api/task`, {
-      method: "GET",
-      headers: { Cookie: cookieHeader },
-    });
-    const task = await response.json();
-    console.log(task);
-    return task;
-  } catch (error) {
-    console.error("Fetch error:", error);
-    throw error;
-  }
-};
+import { BASE_URL } from ".";
 
 export const getProjects = async (): Promise<ApiResponse<Project[]>> => {
   const cookieHeader = (await cookies()).toString();
@@ -58,20 +39,18 @@ export const getProjects = async (): Promise<ApiResponse<Project[]>> => {
 //     console.log(error);
 //   }
 // }
-
-export const getTasksInSingleProject = async (
+export const getSingleProject = async (
   id: string
-): Promise<ApiResponse<Task[]>> => {
+): Promise<ApiResponse<Project>> => {
   const cookieHeader = (await cookies()).toString();
   try {
-    const response = await fetch(`${BASE_URL}/api/task/${id}`, {
-      cache: "no-store",
+    const response = await fetch(`${BASE_URL}/api/project/${id}`, {
       credentials: "include",
       headers: { Cookie: cookieHeader },
     });
-    const task = await response.json();
-    // console.log(task);
-    return task;
+    const project = await response.json();
+    // console.log(project);
+    return project;
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;

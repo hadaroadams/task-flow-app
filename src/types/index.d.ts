@@ -24,7 +24,7 @@ declare interface Task {
 declare interface Project {
   id: number;
   name: string;
-  description?: string;
+  description: string;
   owner: string; // usually a manager email
 }
 
@@ -33,5 +33,3 @@ declare interface ApiResponse<T> {
   message?: string;
   data?: T;
 }
-
-

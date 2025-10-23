@@ -14,11 +14,13 @@ export async function GET(
     if (!user)
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-    const task = tasks.filter((t) => t.projectId === parseInt(projectId));
+    const filteredTasks = tasks.filter(
+      (t) => t.projectId === parseInt(projectId)
+    ) as Task[];
 
     return NextResponse.json({
       message: "Get Request Successful",
-      tasks: task,
+      data: filteredTasks,
     });
   } catch (error) {
     console.error("GET /tasks error:", error);
