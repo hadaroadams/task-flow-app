@@ -36,7 +36,7 @@ async function ProjectSummaryCard({ projects }: ProjectSummaryCardProps) {
           projects.map((project) => (
             <Link
               key={project.id}
-              href={`/project/${project.id}`}
+              href={`/projects/${project.id}`}
               className="mt-4 p-4 border border-gray-200 rounded-lg duration-100 hover:bg-gray-100 cursor-pointer flex flex-col"
             >
               <h3 className="text-lg font-semibold">{project.name}</h3>
