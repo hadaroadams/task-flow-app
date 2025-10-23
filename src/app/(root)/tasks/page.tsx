@@ -9,7 +9,7 @@ import Link from "next/link";
 
 async function Page() {
   const user = await getCurrentUser();
-  const { data: tasks ,error} = await getAllTasks();
+  const { data: tasks } = await getAllTasks();
 
   if (!user) {
     return (
@@ -45,9 +45,7 @@ async function Page() {
 
       {/* Task List */}
       <section className="space-y-4">
-        {error ? (
-          <p className="text-red-500">Failed to load tasks. Try again later.</p>
-        ) : tasks && tasks.length > 0 ? (
+        {tasks && tasks.length > 0 ? (
           tasks.map((task: any, index: number) => (
             <TaskCard {...task} key={index} userRole={user.role} />
           ))
