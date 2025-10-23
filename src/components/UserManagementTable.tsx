@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type User = {
   email: string;
@@ -36,6 +37,7 @@ type UserManagementTableProps = {
 
 export function UserManagementTable({ users }: UserManagementTableProps) {
   const [loadingEmail, setLoadingEmail] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleRoleChange = async (email: string, newRole: string) => {
     setLoadingEmail(email);
@@ -49,6 +51,7 @@ export function UserManagementTable({ users }: UserManagementTableProps) {
       if (!res.ok) {
         throw new Error("Failed to update user role");
       }
+      router.refresh();
     } catch (error) {
       console.error("Failed to update role:", error);
     } finally {
@@ -65,7 +68,7 @@ export function UserManagementTable({ users }: UserManagementTableProps) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="p-0">
+      <CardContent className="p-2">
         <Table>
           <TableHeader>
             <TableRow>

@@ -1,16 +1,15 @@
 import React from "react";
 import { Card } from "./ui/card";
-import { getAllTasks } from "@/lib/task";
-import { calculateTaskStats } from "@/lib/taskStatus";
-type StatusInfo = {
+
+
+type StatusOverviewProps = {
   total: number;
   completed: number;
   pending: number;
   completionRate: number;
 };
 
-async function StatusOverview(statusInfo: StatusInfo) {
-  const tasks = await getAllTasks();
+function StatusOverview(statusInfo: StatusOverviewProps) {
   const { completed, pending, completionRate, total } = statusInfo;
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2 mt-10 ">

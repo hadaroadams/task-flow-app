@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -106,7 +107,14 @@ export default function LoginPage() {
           </FieldGroup>
 
           <Button type="submit" className="w-full mt-6" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Log In"}
+            {isLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>Logging in...</span>
+              </>
+            ) : (
+              "Log In"
+            )}
           </Button>
         </FieldSet>
         <div className="font-bold">

@@ -7,7 +7,7 @@ import { can } from "@/lib/permission";
 export async function GET(
   request: Request,
   { params }: { params: { projectId: string } }
-) {
+): Promise<NextResponse<ApiResponse<Task[]>>> {
   try {
     const { projectId } = await params;
     const user = await getCurrentUser();
@@ -21,16 +21,23 @@ export async function GET(
       tasks: task,
     });
   } catch (error) {
-    console.log(error);
-    return NextResponse.error();
+    console.error("GET /tasks error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal server error",
+      },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(
   request: Request,
   { params }: { params: { projectId: string } }
-) {
+): Promise<NextResponse<ApiResponse<Task>>> {
   const { projectId } = await params;
+
   const user = await getCurrentUser();
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -56,7 +63,7 @@ export async function POST(
     assignedTo,
     status: status || "pending",
   };
-  tasks.push(newTask);
+  tasks.unshift(newTask);
 
-  return NextResponse.json({ message: "Task created", task: newTask });
+  return NextResponse.json({ message: "Task created", data: newTask });
 }

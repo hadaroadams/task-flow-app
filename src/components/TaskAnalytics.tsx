@@ -1,13 +1,10 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -18,54 +15,61 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "Task Analytics";
-
+// Task analytics sample data
 const chartData = [
-  { status: "Done", task: 186 },
-  { status: "Pending", task: 305 },
+  { status: "Pending", count: 12 },
+  { status: "Done", count: 25 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#0046ff",
+  tasks: {
+    label: "Tasks",
+    color: "#2563eb",
   },
 } satisfies ChartConfig;
 
-export function TaskAnalytics() {
+type TaskAnalyticsProps = {
+  total: number;
+  completed: number;
+  pending: number;
+  completionRate: number;
+};
+
+export function TaskAnalytics(analyticInfo: TaskAnalyticsProps) {
+  const { completed, pending, completionRate, total } = analyticInfo;
+  const chartData = [
+    { status: "Pending", count: pending },
+    { status: "Done", count: completed },
+  ];
+
   return (
-    <Card className="">
-      <CardHeader>
-        <CardTitle>Task Analytics</CardTitle>
-        <CardDescription>Overview of task completion</CardDescription>
+    <Card className="w-full ">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg font-semibold">Task Analytics</CardTitle>
+        <CardDescription className="text-sm">
+          Summary of tasks by status
+        </CardDescription>
       </CardHeader>
-      <CardContent >
-        <ChartContainer config={chartConfig} >
+
+      <CardContent className="pt-0">
+        <ChartContainer config={chartConfig} className="max-h-[400px]">
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="status"
               tickLine={false}
-              tickMargin={4}
+              tickMargin={6}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              fontSize={12}
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent label="Tasks" />}
             />
-            <Bar dataKey="task" fill="var(--color-desktop)" radius={8} />
+            <Bar dataKey="count" fill="var(--color-tasks)" radius={5} />
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }

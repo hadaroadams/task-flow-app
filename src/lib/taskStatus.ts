@@ -1,10 +1,3 @@
-type Task = {
-  id: number;
-  title: string;
-  status: "pending" | "done" | "in-progress";
-  assignedTo: string;
-  projectId: string;
-};
 
 export function calculateTaskStats(tasks: Task[]) {
   const total = tasks.length;

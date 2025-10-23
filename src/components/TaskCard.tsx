@@ -36,7 +36,7 @@ function TaskCard({
 
       router.refresh();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -61,10 +61,9 @@ function TaskCard({
 
       router.refresh();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
-  console.log(userRole);
   return (
     <Card className="bg-white p-4 mt-6 min-w-[200px] flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
       {/* Task Info */}
@@ -73,7 +72,6 @@ function TaskCard({
         <p className="text-sm text-gray-500">Assigned to: {assignedTo}</p>
       </div>
 
-      {/* Actions */}
       <div className="flex flex-wrap items-center gap-3 sm:gap-4">
         {/* Status Display */}
         <p

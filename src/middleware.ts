@@ -9,6 +9,7 @@ const isProtectedPath = (path: string) => {
 
 export function middleware(request: NextRequest) {
   const currentPath = request.nextUrl.pathname;
+
   // console.log("Middleware - Current Path:", currentPath);
   if (!isProtectedPath(currentPath)) {
     return NextResponse.next();
@@ -23,14 +24,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
   try {
-    if (currentPath.startsWith("/api")) {
-      // console.log("it did");
-    }
     const user = verifyToken(token);
     if (!user) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
-    request.user! = user;
+    if (currentPath.startsWith("/admin") && user.role !== "admin") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+
     return NextResponse.next();
   } catch (error) {
     if (currentPath.startsWith("/api")) {
@@ -41,6 +42,11 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/tasks/:path*", "/api/task/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/tasks/:path*",
+    "/api/task/:path*",
+    "/admin-panel/:path*",
+  ],
   runtime: "nodejs",
 };

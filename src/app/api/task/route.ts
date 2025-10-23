@@ -4,61 +4,109 @@ import projects from "../../../data/projects.json";
 import { getCurrentUser } from "@/lib/auth";
 import { can } from "@/lib/permission";
 
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: NextRequest
+): Promise<NextResponse<ApiResponse<Task[]>>> {
   try {
     const user = await getCurrentUser();
     if (!user)
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    let filteredTask = [];
 
     // filtering based on role
-    if (user.role === "admin") {
-      filteredTask = tasks;
-    } else {
-      filteredTask = tasks.filter((task) => task.assignedTo === user.email);
-    }
+    const userTasks = (
+      user.role === "admin"
+        ? tasks
+        : tasks.filter((task) => task.assignedTo === user.email)
+    ) as Task[];
+
     return NextResponse.json({
-      message: "GET request received for tasks",
-      filteredTask,
+      success: true,
+      message: "Tasks fetched successfully",
+      data: userTasks,
     });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.error();
+  } catch (error: any) {
+    console.error("GET /tasks error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal server error",
+      },
+      { status: 500 }
+    );
   }
 }
 
-export async function POST(request: NextRequest) {
-  const user = await getCurrentUser();
-  if (!user) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-  const { title, assignedTo, status, projectId } = await request.json();
-  if (!title || !assignedTo || !status || !projectId) {
+export async function POST(
+  request: NextRequest
+): Promise<NextResponse<ApiResponse<Task>>> {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const { title, assignedTo, status, projectId } = await request.json();
+
+    // Basic validation
+    if (!title || !assignedTo || !status || !projectId) {
+      return NextResponse.json(
+        { success: false, message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    // Find the project
+    const project = projects.find((p) => p.id === parseInt(projectId));
+    if (!project) {
+      return NextResponse.json(
+        { success: false, message: "Project not found" },
+        { status: 404 }
+      );
+    }
+
+    // Authorization check
+    const projectOwner = project.owner;
+    const isAllowed = can("createTask", "task", user, { projectOwner });
+    if (!isAllowed) {
+      return NextResponse.json(
+        { success: false, message: "Forbidden" },
+        { status: 403 }
+      );
+    }
+
+    // Create new task
+    const newTask: Task = {
+      id: Date.now(),
+      title,
+      assignedTo,
+      status,
+      projectId: parseInt(projectId),
+    };
+
+    // ⬆️ Add task to the top instead of bottom
+    tasks.unshift(newTask);
+
+    return NextResponse.json({
+      success: true,
+      message: "Task created successfully",
+      data: newTask,
+    });
+  } catch (error) {
+    console.error("POST /tasks error:", error);
     return NextResponse.json(
-      { message: "Missing required fields" },
-      { status: 400 }
+      { success: false, message: "Internal server error" },
+      { status: 500 }
     );
   }
-
-  const project = projects.find((p) => p.id === parseInt(projectId));
-  console.log(project);
-  const projectOwner = project?.owner;
-  const isAllowed = can("createTask", "task", user, { projectOwner });
-  console.log(isAllowed);
-  if (!isAllowed) {
-    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-  }
-
-  const newTask = { id: Date.now(), title, assignedTo, status, projectId };
-  tasks.push(newTask);
-  return NextResponse.json({
-    message: "Task created successfully",
-    task: newTask,
-  });
 }
 
 // Both admin and manager update and member mark as done in one api
-export async function PUT(request: NextRequest) {
+export async function PUT(
+  request: NextRequest
+): Promise<NextResponse<ApiResponse<Task>>> {
   const user = await getCurrentUser();
   console.log("is in");
   if (!user) {
@@ -112,6 +160,7 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const user = await getCurrentUser();
   if (!user) {
+    console.log('herer')
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const { searchParams } = new URL(request.url);
@@ -122,6 +171,7 @@ export async function DELETE(request: NextRequest) {
 
   const taskIndex = tasks.findIndex((t) => t.id === parseInt(id));
   if (taskIndex === -1) {
+    console.log('herer1')
     return NextResponse.json({ message: "Task not found" }, { status: 404 });
   }
 

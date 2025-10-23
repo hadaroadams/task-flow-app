@@ -17,28 +17,28 @@ export const fetchAPI = async (url: string, options?: RequestInit) => {
     throw error;
   }
 };
-export const getAllTasks = async () => {
+
+export const getAllTasks = async (): Promise<ApiResponse<Task[]>> => {
   const cookieHeader = (await cookies()).toString();
   try {
     const response = await fetch(`${BASE_URL}/api/task`, {
       method: "GET",
       headers: { Cookie: cookieHeader },
     });
-    const tasks = await response.json();
-    console.log(tasks);
-    return tasks;
+    const task = await response.json();
+    console.log(task);
+    return task;
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;
   }
 };
 
-export const getProjects = async () => {
+export const getProjects = async (): Promise<ApiResponse<Project[]>> => {
   const cookieHeader = (await cookies()).toString();
   try {
     const response = await fetch(`${BASE_URL}/api/project`, {
       method: "GET",
-      //   cache: "no-store", // Ensures always fresh data
       headers: { Cookie: cookieHeader },
     });
     const projects = await response.json();
